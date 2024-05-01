@@ -21,6 +21,7 @@ export default function Address({ route, updateMarker, markerRef, activeMarkerRe
   }, []);
   //Päivitetään markerille käyttäjän syöttämä informaatio teksti ja selectedValue(positiivinen, negatiivinen vai neutraali)
   const handleUpdate = () => {
+    //console.log('Activemarkerref',activeMarkerRef)
     if (activeMarkerRef && activeMarkerRef.key) {
       updateMarker(activeMarkerRef.key, { information: information, selectedValue: selectedValue });
     } else {

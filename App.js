@@ -83,6 +83,7 @@ const saveMarker = (newMarker) => {
       .then(() => {
         console.log('Kaikki merkit poistettu tietokannasta');
         setMarkers([]); // Päivitetään myös tila paikallisesti
+        setActiveMarker(null)
       })
       .catch((error) => {
         console.error('Virhe poistettaessa merkkejä tietokannasta:', error);
@@ -121,14 +122,27 @@ const saveMarker = (newMarker) => {
 
   // Käsittele markerin painallus
   const handleMarkerPress = (marker) => {
-    
-      console.log('markerref',markerRef)
-      setActiveMarkerRef(markerRef);
-      setActiveMarker(marker);
-      console.log(activeMarker)
-  }; 
 
-  
+    console.log('markerref',markerRef)
+
+    setActiveMarker(marker);
+    setActiveMarkerRef(markerRef)
+
+    /*if (activeMarker === null){
+      setActiveMarker(marker);
+      //console.log('Active',activeMarker);
+    }
+    else{
+      setActiveMarker(null);
+     // console.log('Active',activeMarker);
+    }
+
+    */
+  };
+
+  useEffect(() => {
+    console.log('Active marker changed:', activeMarker);
+  }, [activeMarker]);
 
   return (
     <NavigationContainer>
@@ -149,6 +163,7 @@ const saveMarker = (newMarker) => {
             <Marker
               key={marker.id}
               coordinate={marker.coordinate}
+              //title={activeMarker ? activeMarker.location : null}
               title={marker.location}
               //Asettaa painetun markerin aktiiviseksi
               onPress={() => handleMarkerPress(marker)}
@@ -168,7 +183,6 @@ const saveMarker = (newMarker) => {
       />
       <Button 
         onPress={() => {
-
           navigation.navigate('Visits', {markers: markers});
         }}
         title='Visits'
